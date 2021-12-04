@@ -1,0 +1,19 @@
+# numOriginalFrames: 61
+# duration: 2.000000
+# numAnnotationTracks: 97
+# numAnnotations: 15
+0.083333 preHitFrame
+0.116667 MeleeTrace_Right_Start
+0.150000 weaponSwing
+0.183333 HitFrame
+0.266667 SkySA_TriggerIntervalWin
+0.266667 MeleeTrace_Right_Stop
+0.466667 SkySA_AttackWinStart
+1.800000 SkySA_AttackWinEnd
+0.000000 animmotion 0 0 0
+0.150000 animmotion 0 103 0
+0.216667 animmotion 0 111 0
+0.466667 animmotion 0 111 0
+0.750000 animmotion 0 105 0
+1.416667 animmotion 0 153 0
+1.983333 animmotion 0 161 0
