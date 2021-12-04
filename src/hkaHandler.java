@@ -2,7 +2,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
-/**handles hkanno in CWD. */
+/**handles all hkanno operations in CWD.
+ * @author Ty */
 public class hkaHandler {
 
     /**dump all hkx's annotatins in animation folder into annotation folder as txt,

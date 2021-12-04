@@ -42,8 +42,9 @@ public class Main {
         Scanner input = new Scanner(System.in);
         while (true) {
             switch (input.next().toLowerCase(Locale.ROOT)) {
-                case "dump": hkaHandler.batchDump(); break;
-                case "update": hkaHandler.batchUpdate(); break;
+                case "d": hkaHandler.batchDump(); break;
+                case "u": hkaHandler.batchUpdate(); break;
+                default : System.out.println("please enter a valid command"); break;
             }
         }
     }
