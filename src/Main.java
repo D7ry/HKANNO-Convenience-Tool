@@ -12,9 +12,7 @@ public class Main {
         checkDir();
         inputHandler();
     }
-
-
-
+    
     /**check if directory is a valid directory and if HKANNO is included.
      * creates necessary directory if they don't exist.
      * throw error if HKANNO is not present.*/
@@ -44,6 +42,8 @@ public class Main {
             switch (input.next().toLowerCase(Locale.ROOT)) {
                 case "d": hkaHandler.batchDump(); break;
                 case "u": hkaHandler.batchUpdate(); break;
+                case "a": annoBatchHandler.add(); break;
+                case "rm": annoBatchHandler.rm(); break;
                 default : System.out.println("please enter a valid command"); break;
             }
         }

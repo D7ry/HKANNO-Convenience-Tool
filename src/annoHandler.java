@@ -1,7 +1,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.ListIterator;
 import java.util.Scanner;
 
 /** class handling annos from a specific txt.
@@ -31,31 +33,48 @@ public class annoHandler {
      * @param newAnno new annotation to be added without timestamp.
      * @param timeDiff absolute time difference between two annos.
      */
-    private void add(boolean append, String annoKwd, String newAnno, float timeDiff) {
-        for (int i = 0; i < _lines.size(); i++) {
-            String line = _lines.get(i);
+    public void add(boolean append, String annoKwd, String newAnno, double timeDiff) {
+        ListIterator<String> iter = _lines.listIterator();
+        while (iter.hasNext()) {
+            String line = iter.next();
             if (line.contains(annoKwd)) {
                 if (append) {
-                    newAnno += " " + (Float.parseFloat(getAnnoTime(line)) + timeDiff);
-                    _lines.add(i + 1, newAnno);
+                    String anno = (getAnnoTime(line) + timeDiff) + " " + newAnno;
+                    iter.add(anno);
+                    System.out.println("added " + newAnno + " after " + line);
                 } else {
-                    newAnno += " " + (Float.parseFloat(getAnnoTime(line)) - timeDiff);
-                    _lines.add(i, newAnno)
+                    String anno = (getAnnoTime(line) - timeDiff) + " " + newAnno;
+                    iter.previous();
+                    iter.add(anno);
+                    iter.next();
+                    System.out.println("added " + newAnno + " before " + line);
                 }
             }
         }
+    }
+
+    /**default add with a minimum timeDiff. */
+    public void add(boolean append, String annoKwd, String newAnno) {
+        add(append, annoKwd, newAnno, 0.000001);
     }
 
 
     /**removes all annotation with keyword.
      * @param annoKwd keyword of annotation to be removed.
      */
-    private void remove(String annoKwd) {
-        for () //FIXME
+    public void remove(String annoKwd) {
+        ListIterator<String> iter = _lines.listIterator();
+        while(iter.hasNext()) {
+            String line = iter.next();
+            if (line.contains(annoKwd)) {
+                iter.remove();
+                System.out.println("removed " + line);
+            }
+        }
     }
 
     /**write annotations in _lines back to the txt*/
-    private void save() {
+    public void save() {
         PrintWriter pw = null;
         try {
             pw = new PrintWriter(_txt);
@@ -75,8 +94,8 @@ public class annoHandler {
     /**
      * return timestamp of the specific anno line
      */
-    private String getAnnoTime(String line) {
-        return line.split(" ")[0];
+    private double getAnnoTime(String line) {
+        return Double.parseDouble(line.split(" ")[0]);
     }
     /**
      * return text of specific anno line that is not an AMR annotation.
@@ -86,12 +105,17 @@ public class annoHandler {
     }
 
     /**list of all lines in this txt representation of anno. */
-    private ArrayList<String> _lines;
+    private ArrayList<String> _lines = new ArrayList<>();
 
     /**txt THIS handler manages. */
     private File _txt;
 
     /**duration of the animation containing this annotation; can be null. */
     private String _duration;
+
+    /**return duration of THIS anno. */
+    public String getDuration() {
+        return _duration;
+    }
 
 }
