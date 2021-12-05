@@ -57,8 +57,8 @@ public class Main {
         System.out.println(
                 "d : batch dump \n" +
                 "u : batch update \n" +
-                "add : batch add \n" +
-                "rm : batch remove \n" +
+                "add : batch add annotation\n" +
+                "rm : batch remove annotation\n" +
                 "fixhvy : batch fix skysa heavy attack looping \n");
     }
 

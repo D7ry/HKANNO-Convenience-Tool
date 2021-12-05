@@ -17,6 +17,7 @@ public class hkaHandler {
         for (File hkx : hkxs) {
             dump(hkx);
         }
+        System.out.println("dump complete.");
     }
 
     /**update all text file's annotations in annotation folder back into animations in
@@ -30,6 +31,7 @@ public class hkaHandler {
         for (File txt : CONST.ANNO_DIR.listFiles()) {
             update(txt);
         }
+        System.out.println("update complete.");
     }
     /**dumps a single hkx into corresponding text file in annotation folder. */
     private static void dump(File hkx) throws IOException, InterruptedException {

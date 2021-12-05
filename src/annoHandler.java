@@ -18,6 +18,7 @@ public class annoHandler {
             System.out.println(txt.getName() + " is not a valid anno file");
         }
         _txt = txt;
+        _name = txt.getName();
         Scanner reader = new Scanner(txt);
         while (reader.hasNextLine()) {
             String line = reader.nextLine();
@@ -34,7 +35,7 @@ public class annoHandler {
      * @param newAnno new annotation to be added without timestamp.
      * @param timeDiff absolute time difference between two annos.
      */
-    public boolean add(boolean append, String annoKwd, String newAnno, double timeDiff) {
+    public boolean add(boolean append, boolean once, String annoKwd, String newAnno, double timeDiff) {
         boolean added = false;
         ListIterator<String> iter = _lines.listIterator();
         while (iter.hasNext()) {
@@ -47,6 +48,9 @@ public class annoHandler {
                     iter.add(anno);
                     System.out.println("added " + anno + " after " + line);
                     added = true;
+                    if (once) {
+                        return true;
+                    }
                 } else {
                     String anno = (getAnnoTime(line) - timeDiff) + " " + newAnno;
                     iter.previous();
@@ -54,6 +58,9 @@ public class annoHandler {
                     iter.next();
                     System.out.println("added " + anno + " before " + line);
                     added = true;
+                    if (once) {
+                        return true;
+                    }
                 }
             }
         }
@@ -62,7 +69,7 @@ public class annoHandler {
 
     /**default add with a minimum timeDiff. */
     public void add(boolean append, String annoKwd, String newAnno) {
-        add(append, annoKwd, newAnno, 0.000001);
+        add(append, false, annoKwd, newAnno, 0.000001);
     }
 
 
@@ -74,7 +81,9 @@ public class annoHandler {
         ListIterator<String> iter = _lines.listIterator();
         while(iter.hasNext()) {
             String line = iter.next();
-            if (line.contains(annoKwd)) {
+            if (line.split(" ").length > 1
+                    && line.split(" ")[1].toLowerCase(Locale.ROOT).equals(
+                    annoKwd.toLowerCase(Locale.ROOT))) {
                 iter.remove();
                 System.out.println("removed " + line);
                 removed = true;
@@ -82,6 +91,7 @@ public class annoHandler {
         }
         return removed;
     }
+
     /**checks if anno with KWD exists. Return true if it does. */
     public boolean seek(String kwd) {
         for (String line : _lines) {
@@ -133,6 +143,9 @@ public class annoHandler {
 
     /**txt THIS handler manages. */
     private File _txt;
+
+    /**name of the txt THIS handler manages. */
+    private String _name;
 
     /**duration of the animation containing this annotation; can be null. */
     private String _duration;

@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="HKANNO-Convenience-Tool:jar">
-    <output-path>$USER_HOME$/Desktop/HKCTTesting</output-path>
+    <output-path>$USER_HOME$/Desktop/HKCT-0-1</output-path>
     <root id="archive" name="HKANNO-Convenience-Tool.jar">
       <element id="module-output" name="HKANNO-Convenience-Tool" />
     </root>
