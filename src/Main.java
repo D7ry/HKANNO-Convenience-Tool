@@ -1,8 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.FileSystems;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -43,10 +40,11 @@ public class Main {
             switch (input.next().toLowerCase(Locale.ROOT)) {
                 case "d": hkaHandler.batchDump(); break;
                 case "u": hkaHandler.batchUpdate(); break;
-                case "add": annoBatchHandler.add(); break;
-                case "rm": annoBatchHandler.rm(); break;
+                case "add": annoBatchHandler.addHandler(); break;
+                case "rm": annoBatchHandler.rmHandler(); break;
                 case "fixhvy": SkysaAnnoFixer.fixHvy(); break;
                 case "help" : help(); break;
+                case "clear" : clear(); break;
                 default : System.out.println("please enter a valid command"); break;
             }
         }
@@ -59,8 +57,22 @@ public class Main {
                 "u : batch update \n" +
                 "add : batch add annotation\n" +
                 "rm : batch remove annotation\n" +
-                "fixhvy : batch fix skysa heavy attack looping \n");
+                "fixhvy : batch fix skysa heavy attack looping \n" +
+                "clear : delete all files in annotation and animation folder.");
     }
+
+    private static void clear() {
+        File[] hkxs = CONST.ANIM_DIR.listFiles();
+        File[] txts = CONST.ANNO_DIR.listFiles();
+        for (File hkx : hkxs) {
+            hkx.delete();
+        }
+        for (File txt : txts) {
+            txt.delete();
+        }
+        System.out.println("folder cleared.");
+    }
+
 
 
 }

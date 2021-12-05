@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class annoBatchHandler {
 
     /**add annotation to txt. */
-    public static void add() throws FileNotFoundException {
+    public static void addHandler() throws FileNotFoundException {
         Scanner input = new Scanner(System.in);
         System.out.println("input keyword for annotation next to which to add annotation");
         String kwd = input.next();
@@ -36,7 +36,7 @@ public class annoBatchHandler {
     }
 
     /**remove annotation from txt. */
-    public static void rm() throws FileNotFoundException {
+    public static void rmHandler() throws FileNotFoundException {
         Scanner input = new Scanner(System.in);
         System.out.println("input keyword for the annotation to be removed.");
         batchRemove(input.next());
