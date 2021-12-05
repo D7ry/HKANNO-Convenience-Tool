@@ -12,7 +12,7 @@ public class Main {
         checkDir();
         inputHandler();
     }
-    
+
     /**check if directory is a valid directory and if HKANNO is included.
      * creates necessary directory if they don't exist.
      * throw error if HKANNO is not present.*/
@@ -37,16 +37,29 @@ public class Main {
 
     /**handles user input and processes correspondingly. */
     private static void inputHandler() throws IOException, InterruptedException {
+        System.out.println("input commands. Input help to see all available commands.");
         Scanner input = new Scanner(System.in);
         while (true) {
             switch (input.next().toLowerCase(Locale.ROOT)) {
                 case "d": hkaHandler.batchDump(); break;
                 case "u": hkaHandler.batchUpdate(); break;
-                case "a": annoBatchHandler.add(); break;
+                case "add": annoBatchHandler.add(); break;
                 case "rm": annoBatchHandler.rm(); break;
+                case "fixhvy": SkysaAnnoFixer.fixHvy(); break;
+                case "help" : help(); break;
                 default : System.out.println("please enter a valid command"); break;
             }
         }
+    }
+
+    /**prints out instructions. */
+    private static void help() {
+        System.out.println(
+                "d : batch dump \n" +
+                "u : batch update \n" +
+                "add : batch add \n" +
+                "rm : batch remove \n" +
+                "fixhvy : batch fix skysa heavy attack looping \n");
     }
 
 

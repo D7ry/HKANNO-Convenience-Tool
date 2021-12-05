@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Scanner;
 
 /** class handling annos from a specific txt.
@@ -33,24 +34,30 @@ public class annoHandler {
      * @param newAnno new annotation to be added without timestamp.
      * @param timeDiff absolute time difference between two annos.
      */
-    public void add(boolean append, String annoKwd, String newAnno, double timeDiff) {
+    public boolean add(boolean append, String annoKwd, String newAnno, double timeDiff) {
+        boolean added = false;
         ListIterator<String> iter = _lines.listIterator();
         while (iter.hasNext()) {
             String line = iter.next();
-            if (line.contains(annoKwd)) {
+            if (line.split(" ").length > 1
+                    && line.split(" ")[1].toLowerCase(Locale.ROOT).equals(
+                            annoKwd.toLowerCase(Locale.ROOT))) {
                 if (append) {
                     String anno = (getAnnoTime(line) + timeDiff) + " " + newAnno;
                     iter.add(anno);
-                    System.out.println("added " + newAnno + " after " + line);
+                    System.out.println("added " + anno + " after " + line);
+                    added = true;
                 } else {
                     String anno = (getAnnoTime(line) - timeDiff) + " " + newAnno;
                     iter.previous();
                     iter.add(anno);
                     iter.next();
-                    System.out.println("added " + newAnno + " before " + line);
+                    System.out.println("added " + anno + " before " + line);
+                    added = true;
                 }
             }
         }
+        return added;
     }
 
     /**default add with a minimum timeDiff. */
@@ -62,15 +69,27 @@ public class annoHandler {
     /**removes all annotation with keyword.
      * @param annoKwd keyword of annotation to be removed.
      */
-    public void remove(String annoKwd) {
+    public boolean remove(String annoKwd) {
+        boolean removed = false;
         ListIterator<String> iter = _lines.listIterator();
         while(iter.hasNext()) {
             String line = iter.next();
             if (line.contains(annoKwd)) {
                 iter.remove();
                 System.out.println("removed " + line);
+                removed = true;
             }
         }
+        return removed;
+    }
+    /**checks if anno with KWD exists. Return true if it does. */
+    public boolean seek(String kwd) {
+        for (String line : _lines) {
+            if (line.contains(kwd)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**write annotations in _lines back to the txt*/
@@ -106,6 +125,11 @@ public class annoHandler {
 
     /**list of all lines in this txt representation of anno. */
     private ArrayList<String> _lines = new ArrayList<>();
+
+    /**return lines in this anno as an arraylist. */
+    public ArrayList<String> getAnnoLine() {
+        return _lines;
+    }
 
     /**txt THIS handler manages. */
     private File _txt;

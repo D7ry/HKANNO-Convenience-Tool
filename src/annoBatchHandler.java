@@ -31,8 +31,11 @@ public class annoBatchHandler {
         File[] txts = CONST.ANNO_DIR.listFiles();
         for (File txt : txts) {
             annoHandler handler = new annoHandler(txt);
-            handler.add(append, annoKwd, newAnno, time);
-            handler.save();
+            if (handler.add(append, annoKwd, newAnno, time)) {
+                handler.save();
+            } else {
+                System.out.println("not matching keyword found in " + txt.getName());
+            }
         }
     }
 
@@ -40,8 +43,12 @@ public class annoBatchHandler {
         File[] txts = CONST.ANNO_DIR.listFiles();
         for (File txt: txts) {
             annoHandler handler = new annoHandler(txt);
-            handler.remove(annoKwd);
-            handler.save();
+            if (handler.remove(annoKwd)) {
+                handler.save();
+            } else {
+                System.out.println("not matching keyword found in " + txt.getName());
+            }
+
         }
     }
 
