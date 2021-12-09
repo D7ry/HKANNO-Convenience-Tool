@@ -45,6 +45,8 @@ public class Main {
                 case "fixhvy": SkysaAnnoFixer.fixHvy(); break;
                 case "help" : help(); break;
                 case "clear" : clear(); break;
+                case "npclight" : SkysaAnnoFixer.npcCombo(true); break;
+                case "npcheavy" : SkysaAnnoFixer.npcCombo(false); break;
                 default : System.out.println("please enter a valid command"); break;
             }
         }
@@ -58,7 +60,9 @@ public class Main {
                 "add : batch add annotation\n" +
                 "rm : batch remove annotation\n" +
                 "fixhvy : batch fix skysa heavy attack looping \n" +
-                "clear : delete all files in annotation and animation folder.");
+                "clear : delete all files in annotation and animation folder \n" +
+                "npclight : add light combo annotations to NPC \n" +
+                "npcheavy : add heavy combo annotations to NPC \n" );
     }
 
     private static void clear() {

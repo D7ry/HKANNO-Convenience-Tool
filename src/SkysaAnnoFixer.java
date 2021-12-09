@@ -28,8 +28,8 @@ public class SkysaAnnoFixer {
                 continue;
             }
             System.out.println("fixing " + name);
-            handler.add(false, true, "hitframe", "SkySA_TriggerIntervalWinLoop", 0.05);
-            handler.add(true, true, "hitframe", "SkySA_AttackLoop", timeDiff);
+            handler.addLast(false, "hitframe", "SkySA_TriggerIntervalWinLoop", 0.5);
+            handler.addLast(true, "hitframe", "SkySA_AttackLoop", timeDiff);
             handler.remove("attackStop");
             handler.remove("SkySA_AttackWinEnd");
             handler.save();
@@ -38,4 +38,39 @@ public class SkysaAnnoFixer {
         System.out.println("fix complete.");
     }
 
+    /**add combo Annotations for NPC movesets.
+     */
+    public static void npcCombo(boolean lightAnno) throws FileNotFoundException {
+        Scanner input = new Scanner(System.in);
+        System.out.println("input time delay between attackWinStart and next attack. The shorter the delay, the quicker the enemy chains combo.");
+        Double timeDiff = Double.parseDouble(input.next());
+        String newAnnoStr = "";
+        File[] txts = CONST.ANNO_DIR.listFiles();
+        if (txts.length == 0) {
+            System.out.println("empty annotation directory. Nothing to fix.");
+            return;
+        }
+        if (lightAnno) {
+            newAnnoStr = "attackStart";
+        } else {
+            newAnnoStr = "attackpowerstartforward";
+        }
+        for (File txt : txts) {
+            String name = txt.getName();
+            if (name.contains("power")) {
+                System.out.println(name + " is an annotation file for power attack hkx, which cannot be fixed.");
+                return;
+            }
+            annoHandler handler = new annoHandler(txt);
+            if (handler.seek("attackStart") || handler.seek("attackpowerstartforward")) {
+                System.out.println(name + "is already annotated for combos, use the original annotation or erase the combo annotation first.");
+                return;
+            }
+            System.out.println("adding anno to " + name);
+            if (handler.add(true, true, "SkySA_AttackWinStart", newAnnoStr, timeDiff)) {
+                System.out.println("successfully added anno to " + name);
+                handler.save();
+            }
+        }
+    }
 }

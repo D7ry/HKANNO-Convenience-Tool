@@ -40,27 +40,21 @@ public class annoHandler {
         ListIterator<String> iter = _lines.listIterator();
         while (iter.hasNext()) {
             String line = iter.next();
-            if (line.split(" ").length > 1
-                    && line.split(" ")[1].toLowerCase(Locale.ROOT).equals(
-                            annoKwd.toLowerCase(Locale.ROOT))) {
+            if (compareAnno(line, annoKwd)) {
                 if (append) {
                     String anno = (getAnnoTime(line) + timeDiff) + " " + newAnno;
                     iter.add(anno);
                     System.out.println("added " + anno + " after " + line);
-                    added = true;
-                    if (once) {
-                        return true;
-                    }
                 } else {
                     String anno = (getAnnoTime(line) - timeDiff) + " " + newAnno;
                     iter.previous();
                     iter.add(anno);
                     iter.next();
                     System.out.println("added " + anno + " before " + line);
-                    added = true;
-                    if (once) {
-                        return true;
-                    }
+                }
+                added = true;
+                if (once) {
+                    return true;
                 }
             }
         }
@@ -72,6 +66,41 @@ public class annoHandler {
         add(append, false, annoKwd, newAnno, 0.000001);
     }
 
+    /**add annotation to the last presence of annotation with ANNOKWD. */
+    public boolean addLast(boolean append, String annoKwd, String newAnno, double timeDiff) {
+        int annoCt = 0;
+        for (String line : _lines) {
+            if (compareAnno(line, annoKwd)) {
+                annoCt++;
+            }
+        }
+        if (annoCt == 0) {
+            return false; //short circuiting
+        }
+        ListIterator<String> iter = _lines.listIterator();
+        while (iter.hasNext()) {
+            String line = iter.next();
+            if (compareAnno(line, annoKwd)) {
+                if (annoCt == 1) {
+                    if (append) {
+                        String anno = (getAnnoTime(line) + timeDiff) + " " + newAnno;
+                        iter.add(anno);
+                        System.out.println("added " + anno + " after " + line);
+                    } else {
+                        String anno = (getAnnoTime(line) - timeDiff) + " " + newAnno;
+                        iter.previous();
+                        iter.add(anno);
+                        System.out.println("added " + anno + " before " + line);
+                    }
+                    return true;
+                } else {
+                    annoCt --;
+                }
+            }
+        }
+        return false;
+    }
+
 
     /**removes all annotation with keyword.
      * @param annoKwd keyword of annotation to be removed.
@@ -81,15 +110,18 @@ public class annoHandler {
         ListIterator<String> iter = _lines.listIterator();
         while(iter.hasNext()) {
             String line = iter.next();
-            if (line.split(" ").length > 1
-                    && line.split(" ")[1].toLowerCase(Locale.ROOT).equals(
-                    annoKwd.toLowerCase(Locale.ROOT))) {
+            if (compareAnno(line, annoKwd)) {
                 iter.remove();
                 System.out.println("removed " + line);
                 removed = true;
             }
         }
         return removed;
+    }
+
+    /**check iff annotation's string portion equals annoKwd */
+    private boolean compareAnno(String anno, String annokwd) {
+        return anno.split(" " ).length > 1 && anno.split(" ")[1].toLowerCase(Locale.ROOT).equals(annokwd.toLowerCase(Locale.ROOT));
     }
 
     /**checks if anno with KWD exists. Return true if it does. */
