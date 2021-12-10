@@ -38,8 +38,8 @@ public class Main {
         Scanner input = new Scanner(System.in);
         while (true) {
             switch (input.next().toLowerCase(Locale.ROOT)) {
-                case "d": hkaHandler.batchDump(); break;
-                case "u": hkaHandler.batchUpdate(); break;
+                case "d": hkaHandler.batchDump(CONST.ANNO_DIR, CONST.ANIM_DIR); break;
+                case "u": hkaHandler.batchUpdate(CONST.ANNO_DIR, CONST.ANNO_DIR); break;
                 case "add": annoBatchHandler.addHandler(); break;
                 case "rm": annoBatchHandler.rmHandler(); break;
                 case "fixhvy": SkysaAnnoFixer.fixHvy(); break;
@@ -47,6 +47,7 @@ public class Main {
                 case "clear" : clear(); break;
                 case "npclight" : SkysaAnnoFixer.npcCombo(true); break;
                 case "npcheavy" : SkysaAnnoFixer.npcCombo(false); break;
+                case "combogen" : ComboGenerator.comboGen(); break;
                 default : System.out.println("please enter a valid command"); break;
             }
         }

@@ -20,7 +20,7 @@ public class SkysaAnnoFixer {
             String name = txt.getName();
             if (!name.contains("power" )) {
                 System.out.println(name + " is not a power attack.");
-                return;
+                continue;
             }
             annoHandler handler = new annoHandler(txt);
             if (handler.seek("SkySA_AttackLoop")) {
@@ -41,9 +41,6 @@ public class SkysaAnnoFixer {
     /**add combo Annotations for NPC movesets.
      */
     public static void npcCombo(boolean lightAnno) throws FileNotFoundException {
-        Scanner input = new Scanner(System.in);
-        System.out.println("input time delay between attackWinStart and next attack. The shorter the delay, the quicker the enemy chains combo.");
-        Double timeDiff = Double.parseDouble(input.next());
         String newAnnoStr = "";
         File[] txts = CONST.ANNO_DIR.listFiles();
         if (txts.length == 0) {
@@ -56,21 +53,34 @@ public class SkysaAnnoFixer {
             newAnnoStr = "attackpowerstartforward";
         }
         for (File txt : txts) {
-            String name = txt.getName();
-            if (name.contains("power")) {
-                System.out.println(name + " is an annotation file for power attack hkx, which cannot be fixed.");
-                return;
-            }
-            annoHandler handler = new annoHandler(txt);
-            if (handler.seek("attackStart") || handler.seek("attackpowerstartforward")) {
-                System.out.println(name + "is already annotated for combos, use the original annotation or erase the combo annotation first.");
-                return;
-            }
-            System.out.println("adding anno to " + name);
-            if (handler.add(true, true, "SkySA_AttackWinStart", newAnnoStr, timeDiff)) {
-                System.out.println("successfully added anno to " + name);
-                handler.save();
-            }
+            annoNPChkx(txt, newAnnoStr);
         }
     }
+
+    /**annotate NPC combo annotations to a single hkx.
+     * @param annoTxt text file of NPC hkx to be annotated.
+     * @param newAnnoStr string of combo annotation to be added*/
+    public static void annoNPChkx(File annoTxt, String newAnnoStr) throws FileNotFoundException {
+        String name = annoTxt.getName();
+        if (name.contains("power")) {
+            System.out.println(name + " is an annotation file for power attack hkx, which cannot be fixed.");
+            return;
+        }
+        annoHandler handler = new annoHandler(annoTxt);
+        if (handler.seek("attackStart") || handler.seek("attackpowerstartforward")) {
+            System.out.println(name + "is already annotated for combos, use the original annotation or erase the combo annotation first.");
+            return;
+        }
+        if (handler.seek("SkySA_AttackLoop")) {
+            System.out.println(name + "is the last light attack, it has no following attacks.");
+            return;
+        }
+        System.out.println("adding anno to " + name);
+        if (handler.add(true, true, "SkySA_AttackWinStart", newAnnoStr, 0.000001)) {
+            System.out.println("successfully added anno to " + name);
+            handler.save();
+        }
+    }
+
 }
+

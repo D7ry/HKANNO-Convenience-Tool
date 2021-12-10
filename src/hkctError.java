@@ -9,6 +9,6 @@ public class hkctError {
         System.out.println(msg);
         Scanner scanner = new Scanner(System.in);
         scanner.next();
-        return;
+        System.exit(0);
     }
 }
