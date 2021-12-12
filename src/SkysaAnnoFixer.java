@@ -74,7 +74,15 @@ public class SkysaAnnoFixer {
             return;
         }
         if (handler.seek("SkySA_AttackLoop")) {
-            System.out.println(name + "is the last light attack, it has no following attacks.");
+            if (newAnnoStr.equals("attackStart")) {
+                System.out.println(name + "is the last light attack, it has no following light attacks.");
+            } else {
+                System.out.println("adding anno to " + name);
+                if (handler.add(true, true, "SkySA_AttackLoop", newAnnoStr, 0.000001)) {
+                    System.out.println("successfully added anno to " + name);
+                    handler.save();
+                }
+            }
             return;
         }
         System.out.println("adding anno to " + name);

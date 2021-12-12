@@ -44,7 +44,8 @@ public class ComboGenerator {
     private static void copyHkx(File orgDir, File destDir) throws IOException {
         for (File hkx : orgDir.listFiles()) {
             if (hkx.getName().toLowerCase(Locale.ROOT).contains("hkx")) {
-                Files.copy(orgDir.toPath(), destDir.toPath(), REPLACE_EXISTING);
+                File destHkx = new File (destDir, hkx.getName());
+                Files.copy(hkx.toPath(), destHkx.toPath(), REPLACE_EXISTING);
             }
         }
     }
