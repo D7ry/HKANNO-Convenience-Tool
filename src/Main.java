@@ -45,8 +45,8 @@ public class Main {
                 case "fixhvy": SkysaAnnoFixer.fixHvy(); break;
                 case "help" : help(); break;
                 case "clear" : clear(); break;
-                case "npclight" : SkysaAnnoFixer.npcCombo(true); break;
-                case "npcheavy" : SkysaAnnoFixer.npcCombo(false); break;
+                case "npclight" : SkysaAnnoFixer.npcCombo(true, CONST.ANNO_DIR); break;
+                case "npcheavy" : SkysaAnnoFixer.npcCombo(false, CONST.ANNO_DIR); break;
                 case "combogen" : ComboGenerator.comboGen(); break;
                 default : System.out.println("please enter a valid command"); break;
             }
@@ -62,8 +62,9 @@ public class Main {
                 "rm : batch remove annotation\n" +
                 "fixhvy : batch fix skysa heavy attack looping \n" +
                 "clear : delete all files in annotation and animation folder \n" +
-                "npclight : add light combo annotations to NPC \n" +
-                "npcheavy : add heavy combo annotations to NPC \n" );
+                "npclight : batch add light combo annotations \n" +
+                "npcheavy : batch add heavy combo annotations \n" +
+                "combogen : generate NPC combos into designated folders.");
     }
 
     private static void clear() {
@@ -75,10 +76,9 @@ public class Main {
         for (File txt : txts) {
             txt.delete();
         }
+        CONST.COMBO_DIR.delete();
         System.out.println("folder cleared.");
     }
-
-
 
 }
 

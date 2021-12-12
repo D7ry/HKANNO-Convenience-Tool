@@ -39,10 +39,12 @@ public class SkysaAnnoFixer {
     }
 
     /**add combo Annotations for NPC movesets.
+     * @param lightAnno iff the annotation transitions into a light attack
+     * @param annoDir directory storing animation to be annotated.
      */
-    public static void npcCombo(boolean lightAnno) throws FileNotFoundException {
+    public static void npcCombo(boolean lightAnno, File annoDir) throws FileNotFoundException {
         String newAnnoStr = "";
-        File[] txts = CONST.ANNO_DIR.listFiles();
+        File[] txts = annoDir.listFiles();
         if (txts.length == 0) {
             System.out.println("empty annotation directory. Nothing to fix.");
             return;
