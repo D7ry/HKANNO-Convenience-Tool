@@ -39,7 +39,7 @@ public class Main {
         while (true) {
             switch (input.next().toLowerCase(Locale.ROOT)) {
                 case "d": hkaHandler.batchDump(CONST.ANNO_DIR, CONST.ANIM_DIR); break;
-                case "u": hkaHandler.batchUpdate(CONST.ANNO_DIR, CONST.ANNO_DIR); break;
+                case "u": hkaHandler.batchUpdate(CONST.ANNO_DIR, CONST.ANIM_DIR); break;
                 case "add": annoBatchHandler.addHandler(); break;
                 case "rm": annoBatchHandler.rmHandler(); break;
                 case "fixhvy": SkysaAnnoFixer.fixHvy(); break;
@@ -48,6 +48,7 @@ public class Main {
                 case "npclight" : SkysaAnnoFixer.npcCombo(true, CONST.ANNO_DIR); break;
                 case "npcheavy" : SkysaAnnoFixer.npcCombo(false, CONST.ANNO_DIR); break;
                 case "combogen" : ComboGenerator.comboGen(); break;
+                case "prehitfix" : annoBatchHandler.batchAdd("HitFrame", "preHitFrame", 0.1, false, true);
                 default : System.out.println("please enter a valid command"); break;
             }
         }
@@ -64,7 +65,8 @@ public class Main {
                 "clear : delete all files in annotation and animation folder \n" +
                 "npclight : batch add light combo annotations \n" +
                 "npcheavy : batch add heavy combo annotations \n" +
-                "combogen : generate NPC combos into designated folders.");
+                "combogen : generate NPC combos into designated folders \n" +
+                "prehitfix : add prehit frame annotations to annotations missing them \n");
     }
 
     private static void clear() {
