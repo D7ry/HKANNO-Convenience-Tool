@@ -119,7 +119,27 @@ public class annoHandler {
         return removed;
     }
 
-    /**check iff annotation's string portion equals annoKwd */
+    /**replace all annotation with keyword into another annotation,
+     * keeping time annotation. Case insensitive.
+     */
+    public boolean replace(String orgAnnoKwd, String newAnnoKwd) {
+        boolean replaced = false;
+        ListIterator<String> iter = _lines.listIterator();
+        while(iter.hasNext()) {
+            String line = iter.next();
+            if (compareAnno(line, orgAnnoKwd)) {
+                iter.remove();
+                String time = line.split(" ")[0];
+                iter.add(time + " " + newAnnoKwd);
+                System.out.println("removed " + line);
+                replaced = true;
+            }
+        }
+        return replaced;
+    }
+
+    /**check iff annotation's string portion equals annoKwd.
+     * case insensitive.*/
     private boolean compareAnno(String anno, String annokwd) {
         return anno.split(" " ).length > 1 && anno.split(" ")[1].toLowerCase(Locale.ROOT).equals(annokwd.toLowerCase(Locale.ROOT));
     }

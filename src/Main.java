@@ -42,6 +42,7 @@ public class Main {
                 case "u": hkaHandler.batchUpdate(CONST.ANNO_DIR, CONST.ANIM_DIR); break;
                 case "add": annoBatchHandler.addHandler(); break;
                 case "rm": annoBatchHandler.rmHandler(); break;
+                case "rp": annoBatchHandler.rpHandler(); break;
                 case "fixhvy": SkysaAnnoFixer.fixHvy(); break;
                 case "help" : help(); break;
                 case "clear" : clear(); break;
@@ -61,6 +62,7 @@ public class Main {
                 "u : batch update \n" +
                 "add : batch add annotation\n" +
                 "rm : batch remove annotation\n" +
+                "rp : batch remove annotation\n" +
                 "fixhvy : batch fix skysa heavy attack looping \n" +
                 "clear : delete all files in annotation and animation folder \n" +
                 "npclight : batch add light combo annotations \n" +

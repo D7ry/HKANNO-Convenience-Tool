@@ -51,7 +51,31 @@ public class annoBatchHandler {
             if (handler.remove(annoKwd)) {
                 handler.save();
             } else {
-                System.out.println("not annotation with matching keyword found in " + txt.getName());
+                System.out.println("no annotation with matching keyword found in " + txt.getName());
+            }
+        }
+    }
+
+    /**replace annotation from txt. */
+    public static void rpHandler() throws FileNotFoundException {
+        Scanner input = new Scanner(System.in);
+        System.out.println("input keyword for the annotation to be replaced.");
+        String orgAnno = input.next();
+        System.out.println("input keyword for the new annotation");
+        String newAnno = input.next();
+        batchReplace(orgAnno, newAnno);
+        System.out.println("replace complete");
+    }
+
+    public static void batchReplace(String orgAnno, String newAnno) throws FileNotFoundException {
+        File[] txts = CONST.ANNO_DIR.listFiles();
+        for (File txt: txts) {
+            System.out.println("processing " + txt.getName());
+            annoHandler handler = new annoHandler(txt);
+            if (handler.replace(orgAnno, newAnno)) {
+                handler.save();
+            } else {
+                System.out.println("no annotation with matching keyword found in " + txt.getName());
             }
         }
     }
